@@ -156,10 +156,13 @@
             var price = itemPrice(originalPricesInNum[index], numOfItem);
             const itemOfPrice = document.getElementsByClassName("item-price");
             itemOfPrice[index].innerText = price;
+
+            subtotalPrice();
+            totalPrice();
          });
       }
 
-      const removeItemIndex=[];
+      const removeItemIndex = [];
       var removeHandle = document.getElementsByClassName("remove-item");
       for (let index = 0; index < removeHandle.length; index++) {
          const element = removeHandle[index];
@@ -171,8 +174,8 @@
             var sum = 0;
             var prices = document.getElementsByClassName("item-price");
             for (let i = 0; i < prices.length; i++) {
-              let match = removeItemIndex.indexOf(i);
-               if (match<0) {
+               let match = removeItemIndex.indexOf(i);
+               if (match < 0) {
                   var eachItemPrice = prices[i].innerText;
                   eachItemPrice = parseInt(eachItemPrice);
                   sum += eachItemPrice;
