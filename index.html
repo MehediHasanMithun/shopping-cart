@@ -95,15 +95,18 @@
          numOfItem++;
          return numOfItem;
       }
+
       function decrementItem(numOfItem) {
          numOfItem = parseInt(numOfItem);
          numOfItem--;
          return numOfItem;
       }
+
       function itemPrice(price, newNumOfItem) {
          var newPrice = price * newNumOfItem;
          return newPrice;
       }
+
       function subtotalPrice() {
          let sum = 0;
          const prices = document.getElementsByClassName("item-price");
@@ -113,6 +116,7 @@
          }
          document.getElementById("subtotal-price").innerText = sum;
       }
+
       function totalPrice() {
          var subtotal = document.getElementById("subtotal-price").innerText;
          var tax = document.getElementById("tax").innerText;
@@ -139,6 +143,7 @@
             totalPrice();
          });
       }
+
       var decrementHandle = document.getElementsByClassName("minus");
       for (let index = 0; index < incrementHandle.length; index++) {
          const element = decrementHandle[index];
@@ -151,10 +156,10 @@
             var price = itemPrice(originalPricesInNum[index], numOfItem);
             const itemOfPrice = document.getElementsByClassName("item-price");
             itemOfPrice[index].innerText = price;
-
-
          });
       }
+
+      const removeItemIndex=[];
       var removeHandle = document.getElementsByClassName("remove-item");
       for (let index = 0; index < removeHandle.length; index++) {
          const element = removeHandle[index];
@@ -162,23 +167,22 @@
             var remove = document.getElementsByClassName("items");
             const eachItem = remove[index];
             eachItem.style.display = "none";
-
+            removeItemIndex.push(index);
+            var sum = 0;
             var prices = document.getElementsByClassName("item-price");
-               let eachItemPrice = prices[index].innerText;
-            eachItemPrice = parseInt(eachItemPrice);
-            console.log(eachItemPrice);
-            var subtotal = document.getElementById("subtotal-price").innerText;
-            subtotal = parseInt(subtotal);
-            var total = document.getElementById("total-price").innerText;
-            total = parseInt(total);
-            subtotal = subtotal - eachItemPrice;
-            total = total - eachItemPrice;
-
+            for (let i = 0; i < prices.length; i++) {
+              let match = removeItemIndex.indexOf(i);
+               if (match<0) {
+                  var eachItemPrice = prices[i].innerText;
+                  eachItemPrice = parseInt(eachItemPrice);
+                  sum += eachItemPrice;
+               }
+            }
+            console.log(sum);
+            var subtotal = sum;
             document.getElementById("subtotal-price").innerText = subtotal;
-            document.getElementById("total-price").innerText = total;
-
+            totalPrice();
          });
-
       }
 
    </script>
