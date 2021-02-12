@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item items">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button class="btn btn-default minus"><i class="fas fa-minus"></i></button>
+                           <input type="text" class="form-control text-center input-value" value="1">
+                           <button class="btn btn-default plus"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <h5>$<span class="item-price">1219</span></h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item items">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button class="btn btn-default minus"><i class="fas fa-minus"></i></button>
+                           <input type="text" class="form-control text-center input-value" value="1">
+                           <button class="btn btn-default plus"><i class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5>$<span class="item-price">59</span></h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5>$ <span id="subtotal-price">1,278</span></h5>
+                        <h5>$<span id="tax">0</span></h5>
+                        <h5>$<span id="total-price">1,278</span></h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+
+   <script>
+
+      //original price
+      const originalPricesInNum = [];
+      var originalPrices = document.getElementsByClassName("item-price");
+      for (let index = 0; index < originalPrices.length; index++) {
+         const element = originalPrices[index].innerText;
+         originalPricesInNum.push(parseInt(element));
+      }
+
+      //all function
+      function incrementItem(numOfItem) {
+         numOfItem = parseInt(numOfItem);
+         numOfItem++;
+         return numOfItem;
+      }
+      function decrementItem(numOfItem) {
+         numOfItem = parseInt(numOfItem);
+         numOfItem--;
+         return numOfItem;
+      }
+      function itemPrice(price, newNumOfItem) {
+         var newPrice = price * newNumOfItem;
+         return newPrice;
+      }
+      function subtotalPrice() {
+         let sum = 0;
+         const prices = document.getElementsByClassName("item-price");
+         for (let index = 0; index < prices.length; index++) {
+            const element = prices[index].innerText;
+            sum = sum + parseInt(element);
+         }
+         document.getElementById("subtotal-price").innerText = sum;
+      }
+      function totalPrice() {
+         var subtotal = document.getElementById("subtotal-price").innerText;
+         var tax = document.getElementById("tax").innerText;
+         var total = parseInt(tax) + parseInt(subtotal);
+         document.getElementById("total-price").innerText = total;
+      }
+
+
+      //event handler
+      var incrementHandle = document.getElementsByClassName("plus");
+      for (let index = 0; index < incrementHandle.length; index++) {
+         const element = incrementHandle[index];
+         element.addEventListener("click", function () {
+            const inputValue = document.getElementsByClassName("input-value");
+            var numOfItem = inputValue[index].value;
+            numOfItem = incrementItem(numOfItem);
+            inputValue[index].value = numOfItem;
+
+            var price = itemPrice(originalPricesInNum[index], numOfItem);
+            const itemOfPrice = document.getElementsByClassName("item-price");
+            itemOfPrice[index].innerText = price;
+
+            subtotalPrice();
+            totalPrice();
+         });
+      }
+      var decrementHandle = document.getElementsByClassName("minus");
+      for (let index = 0; index < incrementHandle.length; index++) {
+         const element = decrementHandle[index];
+         element.addEventListener("click", function () {
+            const inputValue = document.getElementsByClassName("input-value");
+            var numOfItem = inputValue[index].value;
+            numOfItem = decrementItem(numOfItem);
+            inputValue[index].value = numOfItem;
+
+            var price = itemPrice(originalPricesInNum[index], numOfItem);
+            const itemOfPrice = document.getElementsByClassName("item-price");
+            itemOfPrice[index].innerText = price;
+
+
+         });
+      }
+      var removeHandle = document.getElementsByClassName("remove-item");
+      for (let index = 0; index < removeHandle.length; index++) {
+         const element = removeHandle[index];
+         element.addEventListener("click", function () {
+            var remove = document.getElementsByClassName("items");
+            const eachItem = remove[index];
+            eachItem.style.display = "none";
+
+            var prices = document.getElementsByClassName("item-price");
+               let eachItemPrice = prices[index].innerText;
+            eachItemPrice = parseInt(eachItemPrice);
+            console.log(eachItemPrice);
+            var subtotal = document.getElementById("subtotal-price").innerText;
+            subtotal = parseInt(subtotal);
+            var total = document.getElementById("total-price").innerText;
+            total = parseInt(total);
+            subtotal = subtotal - eachItemPrice;
+            total = total - eachItemPrice;
+
+            document.getElementById("subtotal-price").innerText = subtotal;
+            document.getElementById("total-price").innerText = total;
+
+         });
+
+      }
+
+   </script>
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+      crossorigin="anonymous"></script>
+</body>
+
+</html>
