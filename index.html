@@ -111,8 +111,11 @@
          let sum = 0;
          const prices = document.getElementsByClassName("item-price");
          for (let index = 0; index < prices.length; index++) {
-            const element = prices[index].innerText;
-            sum = sum + parseInt(element);
+            let match = removeItemIndex.indexOf(index);
+            if (match < 0) {
+               const element = prices[index].innerText;
+               sum = sum + parseInt(element);
+            }
          }
          document.getElementById("subtotal-price").innerText = sum;
       }
