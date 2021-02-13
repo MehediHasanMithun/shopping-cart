@@ -99,6 +99,8 @@
       function decrementItem(numOfItem) {
          numOfItem = parseInt(numOfItem);
          numOfItem--;
+         if(numOfItem<0)
+          numOfItem = 0;
          return numOfItem;
       }
 
@@ -122,8 +124,11 @@
 
       function totalPrice() {
          var subtotal = document.getElementById("subtotal-price").innerText;
-         var tax = document.getElementById("tax").innerText;
-         var total = parseInt(tax) + parseInt(subtotal);
+         //tax count
+         var tax = Math.round(subtotal*(0.1));
+         document.getElementById("tax").innerText=tax;
+   
+         var total = tax + parseInt(subtotal);
          document.getElementById("total-price").innerText = total;
       }
 
